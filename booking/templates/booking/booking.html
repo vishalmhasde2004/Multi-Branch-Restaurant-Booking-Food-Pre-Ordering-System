@@ -1,0 +1,874 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Book a Table | Strange Restaurant
+    </title>
+
+    <link rel="stylesheet"
+          href="{% static 'booking/css/style.css' %}">
+
+</head>
+
+<body>
+
+    <div class="booking-container">
+
+        <h1>
+            Book a Table
+        </h1>
+
+        <p class="booking-subtitle">
+            Reserve your table at Strange Restaurant.
+        </p>
+
+
+        <!-- Error Message -->
+
+        {% if error_message %}
+
+            <p style="
+                margin-bottom: 20px;
+                padding: 12px;
+                background: #f3eee7;
+                border-radius: 6px;
+                text-align: center;
+                color: #555;
+            ">
+
+                {{ error_message }}
+
+            </p>
+
+        {% endif %}
+
+
+        <!-- Booking Confirmation -->
+
+        {% if booking %}
+
+            <div class="booking-confirmation">
+
+                <h2>
+                    Booking Submitted
+                </h2>
+
+                <p class="confirmation-message">
+
+                    Your table booking request has been
+                    submitted successfully.
+
+                </p>
+
+
+                <p>
+                    <strong>Booking ID:</strong>
+                    #{{ booking.id }}
+                </p>
+
+                <p>
+                    <strong>Location:</strong>
+                    {{ booking.location|title }}
+                </p>
+
+                <p>
+                    <strong>Table:</strong>
+                    Table {{ booking.table.table_number }}
+                </p>
+
+                <p>
+                    <strong>Date:</strong>
+                    {{ booking.date }}
+                </p>
+
+                <p>
+                    <strong>Time:</strong>
+                    {{ booking.time }}
+                </p>
+
+                <p>
+                    <strong>Guests:</strong>
+                    {{ booking.guests }}
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+                    {{ booking.status }}
+                </p>
+
+
+                <!-- Food Pre-Order Confirmation -->
+
+                <div style="
+                    margin-top: 25px;
+                    padding: 18px;
+                    background: #f7f3ed;
+                    border-radius: 8px;
+                ">
+
+                    <h3 style="
+                        margin-top: 0;
+                        margin-bottom: 10px;
+                    ">
+
+                        FOOD PRE-ORDER
+
+                    </h3>
+
+
+                    <p style="
+                        margin: 0;
+                        color: #666;
+                        font-size: 14px;
+                        line-height: 1.6;
+                    ">
+
+                        {% if dine_in_order %}
+
+                            Your selected food items have
+                            been saved with this table booking.
+
+                            <br><br>
+
+                            <strong>
+                                Food Total:
+                                ₹{{ dine_in_order.total_amount|floatformat:2 }}
+                            </strong>
+
+                            <br><br>
+
+                            <strong>
+                                No online payment is required.
+                            </strong>
+
+                            <br>
+
+                            Payment can be made at the restaurant
+                            during your dining time.
+
+                        {% else %}
+
+                            No food items were selected
+                            for this table booking.
+
+                            <br><br>
+
+                            You can simply enjoy your dining
+                            experience at the restaurant.
+
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+
+                <!-- Confirmation Buttons -->
+
+                <div style="
+                    display: flex;
+                    gap: 12px;
+                    margin-top: 25px;
+                ">
+
+                    <a href="{% url 'my_bookings' %}"
+                       style="
+                           flex: 1;
+                           text-align: center;
+                           text-decoration: none;
+                           padding: 12px;
+                           background: #222;
+                           color: white;
+                           border-radius: 6px;
+                           font-size: 14px;
+                           letter-spacing: 0.5px;
+                       ">
+
+                        MY BOOKINGS
+
+                    </a>
+
+
+                    <a href="{% url 'my_orders' %}"
+                       style="
+                           flex: 1;
+                           text-align: center;
+                           text-decoration: none;
+                           padding: 12px;
+                           background: #222;
+                           color: white;
+                           border-radius: 6px;
+                           font-size: 14px;
+                           letter-spacing: 0.5px;
+                       ">
+
+                        MY ORDERS
+
+                    </a>
+
+
+                    <a href="{% url 'home' %}"
+                       style="
+                           flex: 1;
+                           text-align: center;
+                           text-decoration: none;
+                           padding: 12px;
+                           background: #222;
+                           color: white;
+                           border-radius: 6px;
+                           font-size: 14px;
+                           letter-spacing: 0.5px;
+                       ">
+
+                        HOME
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        {% else %}
+
+
+            <!-- No Table Available -->
+
+            {% if no_table_message %}
+
+                <p style="
+                    margin-bottom: 20px;
+                    padding: 12px;
+                    background: #f3eee7;
+                    border-radius: 6px;
+                    text-align: center;
+                    color: #555;
+                ">
+
+                    {{ no_table_message }}
+
+                </p>
+
+            {% endif %}
+
+
+            <!-- Food Pre-Order -->
+
+            {% if cart_items %}
+
+                <div style="
+                    margin-bottom: 25px;
+                    padding: 20px;
+                    background: #f7f3ed;
+                    border-radius: 10px;
+                ">
+
+                    <h2 style="
+                        margin-top: 0;
+                        margin-bottom: 8px;
+                    ">
+
+                        FOOD PRE-ORDER
+
+                    </h2>
+
+
+                    <p style="
+                        margin-bottom: 18px;
+                        color: #666;
+                        font-size: 14px;
+                        line-height: 1.5;
+                    ">
+
+                        The food items below will be saved
+                        with your table booking.
+
+                        <br>
+
+                        <strong>
+                            No online payment is required.
+                        </strong>
+
+                    </p>
+
+
+                    {% for item in cart_items %}
+
+                        <div style="
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            gap: 15px;
+                            padding: 13px 0;
+                            border-bottom: 1px solid #ddd;
+                        ">
+
+                            <div>
+
+                                <strong>
+                                    {{ item.menu_item.name }}
+                                </strong>
+
+                                <p style="
+                                    margin: 5px 0 0;
+                                    color: #777;
+                                    font-size: 13px;
+                                ">
+
+                                    ₹{{ item.menu_item.price|floatformat:2 }}
+                                    × {{ item.quantity }}
+
+                                </p>
+
+                            </div>
+
+
+                            <strong>
+
+                                ₹{{ item.menu_item.price|floatformat:2 }}
+
+                            </strong>
+
+                        </div>
+
+                    {% endfor %}
+
+
+                    <!-- Food Total -->
+
+                    <div style="
+                        margin-top: 18px;
+                        padding-top: 15px;
+                        border-top: 2px solid #222;
+                        text-align: right;
+                    ">
+
+                        <strong>
+
+                            Food Total:
+                            ₹{{ food_total|floatformat:2 }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <p style="
+                        margin-top: 15px;
+                        margin-bottom: 0;
+                        text-align: center;
+                        font-size: 12px;
+                        color: #777;
+                    ">
+
+                        Payment will be handled at the
+                        restaurant during dining.
+
+                    </p>
+
+                </div>
+
+
+            {% else %}
+
+                <div style="
+                    margin-bottom: 25px;
+                    padding: 18px;
+                    background: #f7f3ed;
+                    border-radius: 10px;
+                    text-align: center;
+                ">
+
+                    <h3 style="
+                        margin-top: 0;
+                    ">
+
+                        NO FOOD PRE-ORDER
+
+                    </h3>
+
+
+                    <p style="
+                        margin-bottom: 0;
+                        color: #666;
+                        font-size: 14px;
+                    ">
+
+                        You can book the table without
+                        selecting food.
+
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- Booking Form -->
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <!-- Location -->
+
+                <div class="form-group">
+
+                    <label for="location">
+
+                        Location
+
+                    </label>
+
+
+                    <select
+                        name="location"
+                        id="location"
+                        required
+                    >
+
+                        <option value="">
+
+                            Select Location
+
+                        </option>
+
+
+                        <option
+                            value="surat"
+
+                            {% if selected_location == 'surat' %}
+
+                                selected
+
+                            {% endif %}
+                        >
+
+                            Surat
+
+                        </option>
+
+
+                        <option
+                            value="delhi"
+
+                            {% if selected_location == 'delhi' %}
+
+                                selected
+
+                            {% endif %}
+                        >
+
+                            Delhi
+
+                        </option>
+
+
+                        <option
+                            value="pune"
+
+                            {% if selected_location == 'pune' %}
+
+                                selected
+
+                            {% endif %}
+                        >
+
+                            Pune
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Date -->
+
+                <div class="form-group">
+
+                    <label for="date">
+
+                        Date
+
+                    </label>
+
+
+                    <input
+                        type="date"
+                        name="date"
+                        id="date"
+                        value="{{ selected_date }}"
+                        min="{{ today }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Time -->
+
+                <div class="form-group">
+
+                    <label for="time">
+
+                        Time
+
+                    </label>
+
+
+                    <select name="time" id="time" required>
+
+    <option value="">Select Time</option>
+
+    <option value="10:00" {% if selected_time == "10:00" %}selected{% endif %}>
+        10:00 AM
+    </option>
+
+    <option value="10:30" {% if selected_time == "10:30" %}selected{% endif %}>
+        10:30 AM
+    </option>
+
+    <option value="11:00" {% if selected_time == "11:00" %}selected{% endif %}>
+        11:00 AM
+    </option>
+
+    <option value="11:30" {% if selected_time == "11:30" %}selected{% endif %}>
+        11:30 AM
+    </option>
+
+    <option value="12:00" {% if selected_time == "12:00" %}selected{% endif %}>
+        12:00 PM
+    </option>
+
+    <option value="12:30" {% if selected_time == "12:30" %}selected{% endif %}>
+        12:30 PM
+    </option>
+
+    <option value="13:00" {% if selected_time == "13:00" %}selected{% endif %}>
+        01:00 PM
+    </option>
+
+    <option value="13:30" {% if selected_time == "13:30" %}selected{% endif %}>
+        01:30 PM
+    </option>
+
+    <option value="14:00" {% if selected_time == "14:00" %}selected{% endif %}>
+        02:00 PM
+    </option>
+
+    <option value="14:30" {% if selected_time == "14:30" %}selected{% endif %}>
+        02:30 PM
+    </option>
+
+    <option value="15:00" {% if selected_time == "15:00" %}selected{% endif %}>
+        03:00 PM
+    </option>
+
+    <option value="15:30" {% if selected_time == "15:30" %}selected{% endif %}>
+        03:30 PM
+    </option>
+
+    <option value="16:00" {% if selected_time == "16:00" %}selected{% endif %}>
+        04:00 PM
+    </option>
+
+    <option value="16:30" {% if selected_time == "16:30" %}selected{% endif %}>
+        04:30 PM
+    </option>
+
+    <option value="17:00" {% if selected_time == "17:00" %}selected{% endif %}>
+        05:00 PM
+    </option>
+
+    <option value="17:30" {% if selected_time == "17:30" %}selected{% endif %}>
+        05:30 PM
+    </option>
+
+    <option value="18:00" {% if selected_time == "18:00" %}selected{% endif %}>
+        06:00 PM
+    </option>
+
+    <option value="18:30" {% if selected_time == "18:30" %}selected{% endif %}>
+        06:30 PM
+    </option>
+
+    <option value="19:00" {% if selected_time == "19:00" %}selected{% endif %}>
+        07:00 PM
+    </option>
+
+    <option value="19:30" {% if selected_time == "19:30" %}selected{% endif %}>
+        07:30 PM
+    </option>
+
+    <option value="20:00" {% if selected_time == "20:00" %}selected{% endif %}>
+        08:00 PM
+    </option>
+
+    <option value="20:30" {% if selected_time == "20:30" %}selected{% endif %}>
+        08:30 PM
+    </option>
+
+    <option value="21:00" {% if selected_time == "21:00" %}selected{% endif %}>
+        09:00 PM
+    </option>
+
+    <option value="21:30" {% if selected_time == "21:30" %}selected{% endif %}>
+        09:30 PM
+    </option>
+
+    <option value="22:00" {% if selected_time == "22:00" %}selected{% endif %}>
+        10:00 PM
+    </option>
+
+</select>
+
+                </div>
+
+
+                <!-- Number of Guests -->
+
+                <div class="form-group">
+
+                    <label for="guests">
+
+                        Number of Guests
+
+                    </label>
+
+
+                    <select
+                        name="guests"
+                        id="guests"
+                        required
+                    >
+
+                        <option value="">
+
+                            Select Guests
+
+                        </option>
+
+
+                        <option
+                            value="1"
+
+                            {% if selected_guests == 1 %}
+
+                                selected
+
+                            {% endif %}
+                        >
+
+                            1 Guest
+
+                        </option>
+
+
+                        <option
+                            value="2"
+
+                            {% if selected_guests == 2 %}
+
+                                selected
+
+                            {% endif %}
+                        >
+
+                            2 Guests
+
+                        </option>
+
+
+                        <option
+                            value="3"
+
+                            {% if selected_guests == 3 %}
+
+                                selected
+
+                            {% endif %}
+                        >
+
+                            3 Guests
+
+                        </option>
+
+
+                        <option
+                            value="4"
+
+                            {% if selected_guests == 4 %}
+
+                                selected
+
+                            {% endif %}
+                        >
+
+                            4 Guests
+
+                        </option>
+
+
+                        <option
+                            value="5"
+
+                            {% if selected_guests == 5 %}
+
+                                selected
+
+                            {% endif %}
+                        >
+
+                            5 Guests
+
+                        </option>
+
+
+                        <option
+                            value="6"
+
+                            {% if selected_guests == 6 %}
+
+                                selected
+
+                            {% endif %}
+                        >
+
+                            6 Guests
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Available Tables -->
+
+                {% if available_tables %}
+
+                    <div class="form-group">
+
+                        <label for="table">
+
+                            Available Table
+
+                        </label>
+
+
+                        <select
+                            name="table"
+                            id="table"
+                            required
+                        >
+
+                            <option value="">
+
+                                Select Table
+
+                            </option>
+
+
+                            {% for table in available_tables %}
+
+                                <option
+                                    value="{{ table.id }}"
+                                >
+
+                                    Table
+                                    {{ table.table_number }}
+
+                                    -
+
+                                    Capacity
+                                    {{ table.capacity }}
+
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- Payment Notice -->
+
+                <div style="
+                    margin: 20px 0;
+                    padding: 16px;
+                    background: #f7f3ed;
+                    border-radius: 8px;
+                    text-align: center;
+                ">
+
+                    <strong>
+
+                        TABLE BOOKING PAYMENT
+
+                    </strong>
+
+
+                    <p style="
+                        margin: 8px 0 0;
+                        color: #666;
+                        font-size: 13px;
+                        line-height: 1.5;
+                    ">
+
+                        No online payment is required
+                        for table booking or food pre-order.
+
+                        <br>
+
+                        Payment will be handled at the
+                        restaurant.
+
+                    </p>
+
+                </div>
+
+
+                <!-- Submit Button -->
+
+                <button
+                    type="submit"
+                    class="booking-button"
+                >
+
+                    {% if available_tables %}
+
+                        CONFIRM TABLE & PRE-ORDER
+
+                    {% else %}
+
+                        CHECK AVAILABLE TABLES
+
+                    {% endif %}
+
+                </button>
+
+
+            </form>
+
+
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>

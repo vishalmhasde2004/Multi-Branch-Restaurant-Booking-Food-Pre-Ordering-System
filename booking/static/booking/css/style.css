@@ -1,0 +1,139 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #f3eee7;
+    font-family: Arial, sans-serif;
+    color: #222;
+}
+
+
+.booking-container {
+    width: 100%;
+    max-width: 500px;
+
+    background: white;
+
+    padding: 40px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+
+.booking-container h1 {
+    margin-top: 0;
+    margin-bottom: 10px;
+
+    text-align: center;
+}
+
+
+.booking-subtitle {
+    text-align: center;
+    color: #666;
+
+    margin-bottom: 30px;
+}
+
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-weight: bold;
+}
+
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 12px;
+
+    border: 1px solid #ccc;
+    border-radius: 6px;
+
+    font-size: 15px;
+}
+
+
+.booking-button {
+    width: 100%;
+
+    padding: 13px;
+
+    border: none;
+    border-radius: 6px;
+
+    background: #222;
+    color: white;
+
+    font-size: 15px;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+}
+
+
+.booking-button:hover {
+    background: #444;
+}
+
+.booking-confirmation {
+    margin-top: 30px;
+
+    padding: 20px;
+
+    background: #f3eee7;
+
+    border-radius: 8px;
+}
+
+.booking-confirmation h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.booking-confirmation p {
+    margin: 10px 0;
+}
+
+.confirmation-message {
+    color: #555;
+    margin-bottom: 25px;
+}
+
+.confirmation-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.confirmation-actions a {
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    padding: 12px;
+    background: #222;
+    color: white;
+    border-radius: 6px;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+.confirmation-actions a:hover {
+    background: #444;
+}

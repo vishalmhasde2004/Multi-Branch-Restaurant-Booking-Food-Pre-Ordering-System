@@ -1,0 +1,129 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Locations | Strange Restaurant</title>
+
+    <link rel="stylesheet" href="{% static 'locations/css/style.css' %}">
+</head>
+
+<body>
+
+    <header>
+        <h1>STRANGE RESTAURANT</h1>
+
+        <nav>
+            <a href="/">HOME</a>
+            <a href="/#about">ABOUT</a>
+            <a href="/locations/">LOCATIONS</a>
+            <a href="/#contact">CONTACT</a>
+            <a href="#">LOGIN</a>
+        </nav>
+    </header>
+
+
+    <main>
+
+        <section class="locations-section">
+
+            <p class="small-title">FIND US</p>
+
+            <h2>OUR LOCATIONS</h2>
+
+            <p class="intro">
+                Visit Strange Restaurant at one of our locations
+                and enjoy a memorable dining experience.
+            </p>
+
+
+           <div class="location-container">
+
+    <!-- Surat -->
+    <div class="location-card">
+
+        <img src="{% static 'locations/images/surat.jpg' %}"
+             alt="Strange Restaurant Surat">
+
+        <div class="location-info">
+
+            <h3>Surat</h3>
+
+            <p>
+                Experience the taste of Strange Restaurant
+                in the vibrant city of Surat.
+            </p>
+
+            <p>
+                📍 Surat, Gujarat
+            </p>
+
+            <a href="{% url 'surat' %}">VIEW LOCATION</a>
+
+        </div>
+
+    </div>
+
+
+    <!-- Delhi -->
+    <div class="location-card">
+
+        <img src="{% static 'locations/images/delhi.jpg' %}"
+             alt="Strange Restaurant Delhi">
+
+        <div class="location-info">
+
+            <h3>Delhi</h3>
+
+            <p>
+                Enjoy delicious food and a premium dining
+                experience at our Delhi restaurant.
+            </p>
+
+            <p>
+                📍 Delhi, India
+            </p>
+
+            <a href="{% url 'delhi' %}">VIEW LOCATION</a>
+
+        </div>
+
+    </div>
+
+
+    <!-- Pune -->
+    <div class="location-card">
+
+        <img src="{% static 'locations/images/pune.jpg' %}"
+             alt="Strange Restaurant Pune">
+
+        <div class="location-info">
+
+            <h3>Pune</h3>
+
+            <p>
+                Discover great food, great atmosphere and
+                the Strange Restaurant experience in Pune.
+            </p>
+
+            <p>
+                📍 Pune, Maharashtra
+            </p>
+
+            <a href="{% url 'pune' %}">VIEW LOCATION</a>
+
+        </div>
+
+    </div>
+
+</div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

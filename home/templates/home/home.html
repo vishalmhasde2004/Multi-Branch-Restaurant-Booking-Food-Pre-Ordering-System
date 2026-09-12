@@ -1,0 +1,154 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Strange Name | Restaurant</title>
+
+    <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            STRANGE RESTAURANT
+        </div>
+
+        <div class="nav-links">
+
+            <a href="#">HOME</a>
+
+            <a href="#about">ABOUT</a>
+
+
+            <a href="{% url 'menu' %}">
+                MENU
+            </a>
+
+
+            {% if user.is_authenticated %}
+
+                <a href="{% url 'my_bookings' %}">
+                    MY BOOKINGS
+                </a>
+
+                <a href="{% url 'my_orders' %}">
+                    MY ORDERS
+                </a>
+
+            {% endif %}
+
+
+
+
+            {% if user.is_authenticated %}
+
+                <span>
+                    Welcome {{ user.username }} 
+                </span>
+                
+                <a href="{% url 'logout' %}" class="nav-login">
+                    LOGOUT
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'login' %}" class="nav-login">
+                    LOGIN
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </nav>
+
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <p class="hero-subtitle">
+                WELCOME TO
+            </p>
+
+            <h1>
+                STRANGE RESTAURANT
+            </h1>
+
+            <p class="hero-text">
+                A place where great food, beautiful moments
+                and unforgettable experiences come together.
+            </p>
+
+            {% if user.is_authenticated %}
+
+                <a href="{% url 'menu' %}" class="login-btn">
+                    ORDER FOOD
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'login' %}" class="login-btn">
+                    LOGIN
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <section class="about-section" id="about">
+
+        <div class="about-image">
+
+            <img
+                src="{% static 'home/images/about.jpg' %}"
+                alt="Strange Name Restaurant"
+            >
+
+        </div>
+
+
+        <div class="about-content">
+
+            <p class="section-label">
+                OUR STORY
+            </p>
+
+            <h2>
+                More Than Just<br>
+                Good Food
+            </h2>
+
+            <p>
+                Strange Name is a place where delicious food,
+                warm hospitality and beautiful moments come together.
+                Every location has its own character, but the
+                experience remains uniquely Strange Name.
+            </p>
+
+            <p>
+                From carefully prepared dishes to memorable dining
+                experiences, we welcome you to discover Strange Name.
+            </p>
+
+            <a href="#" class="about-btn">
+                DISCOVER MORE
+            </a>
+
+        </div>
+
+    </section>
+
+</body>
+
+</html>
