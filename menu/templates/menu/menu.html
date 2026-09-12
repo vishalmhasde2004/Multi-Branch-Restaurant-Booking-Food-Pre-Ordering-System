@@ -1,0 +1,226 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Menu | Strange Restaurant
+    </title>
+
+    <link rel="stylesheet"
+          href="{% static 'menu/css/style.css' %}">
+
+</head>
+
+<body>
+
+    <div class="menu-page">
+
+        <div class="menu-page">
+
+    <!-- TOP NAVIGATION BUTTONS (HOME & CART) -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+        <a href="{% url 'home' %}" class="back-home-btn">
+            🏠 HOME
+        </a>
+        <a href="{% url 'cart' %}" class="view-cart-btn-nav">
+            🛒 CART
+        </a>
+    </div>
+
+    <header class="menu-header">
+        <h1>Our Menu</h1>
+        <p>Discover our carefully prepared dishes.</p>
+    </header>
+
+        <a href="{% url 'cart' %}" class="view-cart-btn">
+    🛒 VIEW CART
+</a>
+
+        <header class="menu-header">
+
+            <a href="{% url 'home' %}"
+               class="back-home">
+
+                STRANGE RESTAURANT
+
+            </a>
+
+            <h1>
+                Our Menu
+            </h1>
+
+            <p>
+                Discover our carefully prepared dishes.
+            </p>
+
+        </header>
+
+
+        <div class="location-filter">
+
+    <a
+        href="{% url 'menu' %}"
+        class="{% if not selected_location %}active{% endif %}"
+    >
+        ALL LOCATIONS
+    </a>
+
+
+    {% for location_code, location_name in locations %}
+
+        <a
+            href="{% url 'menu' %}?location={{ location_code }}"
+            class="{% if selected_location == location_code %}active{% endif %}"
+        >
+            {{ location_name|upper }}
+        </a>
+
+    {% endfor %}
+
+</div>
+
+
+        <div class="category-filter">
+
+    <a
+        href="{% url 'menu' %}"
+        class="{% if not selected_category %}active{% endif %}"
+    >
+        ALL
+    </a>
+
+
+    {% for category in categories %}
+
+        <a
+            href="{% url 'menu' %}?location={{ selected_location }}&category={{ category }}"
+            class="{% if selected_category == category %}active{% endif %}"
+        >
+
+            {{ category|upper }}
+
+        </a>
+
+    {% endfor %}
+
+</div>
+
+
+        {% if menu_items %}
+
+            <div class="menu-grid">
+
+                {% for item in menu_items %}
+
+                    <div class="menu-card">
+
+
+                        {% if item.image %}
+
+                            <img
+                                src="{{ item.image.url }}"
+                                alt="{{ item.name }}"
+                            >
+
+                        {% else %}
+
+                            <div class="menu-image-placeholder">
+
+                                STRANGE RESTAURANT
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <div class="menu-content">
+
+                            <span class="menu-category">
+
+                                {{ item.category }}
+
+                            </span>
+
+
+                            <h2>
+
+                                {{ item.name }}
+
+                            </h2>
+
+
+                            {% if item.description %}
+
+                                <p class="menu-description">
+
+                                    {{ item.description }}
+
+                                </p>
+
+                            {% endif %}
+
+
+                            <div class="menu-bottom">
+
+    <span class="menu-price">
+        ₹{{ item.price }}
+    </span>
+
+    {% if user.is_authenticated %}
+
+        <form method="POST" action="{% url 'add_to_cart' item.id %}">
+
+            {% csrf_token %}
+
+            <button class="add-to-cart-btn">ADD TO CART</button>
+
+        </form>
+
+    {% else %}
+
+        <a href="{% url 'login' %}" class="cart-btn">
+            LOGIN TO ORDER
+        </a>
+
+    {% endif %}
+
+</div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="empty-menu">
+
+                <h2>
+                    Menu Coming Soon
+                </h2>
+
+                <p>
+                    Our menu is being updated.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+
+    </div>
+
+</body>
+
+</html>

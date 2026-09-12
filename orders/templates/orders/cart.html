@@ -1,0 +1,146 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Your Cart | Strange Restaurant
+    </title>
+
+    <link rel="stylesheet"
+          href="{% static 'orders/css/style.css' %}">
+
+</head>
+
+
+<body>
+
+    <div class="cart-page">
+
+
+        <header class="cart-header">
+
+            <h1>
+                YOUR CART
+            </h1>
+
+            <p>
+                Review your selected food items.
+            </p>
+
+        </header>
+
+
+        {% if cart_items %}
+
+
+            {% for item in cart_items %}
+
+                <div class="cart-item">
+
+
+                    <div>
+
+                        <h2>
+                            {{ item.menu_item.name }}
+                        </h2>
+
+                        <p class="item-price">
+                            ₹{{ item.menu_item.price|floatformat:2 }}
+                            each
+                        </p>
+
+                    </div>
+
+
+                    <div class="quantity-control">
+
+                        <a href="{% url 'decrease_quantity' item.id %}">
+                            −
+                        </a>
+
+                        <span>
+                            {{ item.quantity }}
+                        </span>
+
+                        <a href="{% url 'increase_quantity' item.id %}">
+                            +
+                        </a>
+
+                    </div>
+
+
+                    <a
+                        href="{% url 'remove_from_cart' item.id %}"
+                        class="remove-btn"
+                    >
+                        REMOVE
+                    </a>
+
+
+                </div>
+
+
+            {% endfor %}
+
+
+            <div class="cart-total">
+
+                <h2>
+                    Total:
+                    ₹{{ total|floatformat:2 }}
+                </h2>
+
+
+                <a href="{% url 'checkout' %}" class="checkout-btn">
+    CHECKOUT
+</a>
+
+
+                <br>
+
+
+                <a
+                    href="{% url 'menu' %}"
+                    class="continue-btn"
+                >
+                    CONTINUE SHOPPING
+                </a>
+
+            </div>
+
+
+        {% else %}
+
+
+            <div class="empty-cart">
+
+                <h2>
+                    Your cart is empty.
+                </h2>
+
+                <a
+                    href="{% url 'menu' %}"
+                    class="checkout-btn"
+                >
+                    GO TO MENU
+                </a>
+
+            </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+</body>
+
+</html> 

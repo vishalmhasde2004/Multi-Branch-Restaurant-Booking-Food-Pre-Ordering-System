@@ -1,0 +1,703 @@
+/* =========================================
+   STRANGE RESTAURANT
+   ORDERS / CART / CHECKOUT STYLE
+   ========================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f5f5;
+    color: #222;
+}
+
+
+/* =========================================
+   MAIN PAGE
+   ========================================= */
+
+.cart-page {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 55px 25px 80px;
+}
+
+
+/* =========================================
+   PAGE HEADER
+   ========================================= */
+
+.cart-header {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.page-label {
+    margin: 0 0 8px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    color: #777;
+}
+
+.cart-header h1 {
+    margin: 0 0 12px;
+    font-size: 42px;
+    letter-spacing: 3px;
+}
+
+.cart-header > p:last-child {
+    margin: 0;
+    color: #777;
+    font-size: 16px;
+}
+
+
+/* =========================================
+   GENERAL CARD
+   ========================================= */
+
+.cart-item {
+    background: #fff;
+    padding: 30px;
+    margin-bottom: 22px;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+
+/* =========================================
+   ORDER CARD
+   ========================================= */
+
+.order-card {
+    background: #fff;
+    margin-bottom: 30px;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+
+/* =========================================
+   ORDER TOP
+   ========================================= */
+
+.order-top {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 40px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #eee;
+}
+
+.order-number {
+    margin: 0 0 12px;
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+
+.order-top h2 {
+    margin: 0 0 22px;
+    font-size: 25px;
+    letter-spacing: 1px;
+}
+
+.order-top p {
+    margin: 14px 0;
+    color: #555;
+    font-size: 15px;
+}
+
+.order-top strong {
+    color: #222;
+}
+
+
+/* =========================================
+   ORDER PRICE
+   ========================================= */
+
+.order-price {
+    text-align: right;
+}
+
+.order-price h2 {
+    margin: 0 0 20px;
+    font-size: 28px;
+}
+
+.order-price p {
+    margin: 12px 0;
+}
+
+
+/* =========================================
+   CURRENT STATUS
+   ========================================= */
+
+.current-status {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 25px;
+    margin-bottom: 28px;
+}
+
+.current-status > span {
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.status-current,
+.status-cancelled {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 30px;
+    background: #222;
+    color: #fff;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.status-cancelled {
+    background: #a00000;
+}
+
+
+/* =========================================
+   TRACKING SECTION
+   ========================================= */
+
+.tracking-section {
+    padding: 25px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.tracking-section h3,
+.order-items h3,
+.delivery-info h3 {
+    margin: 0 0 22px;
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+
+/* =========================================
+   TRACKING
+   ========================================= */
+
+.tracking {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.tracking-step {
+    position: relative;
+    flex: 1;
+    text-align: center;
+    min-width: 0;
+}
+
+
+/* connecting line */
+
+.tracking-step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+
+    top: 18px;
+    left: calc(50% + 20px);
+    right: calc(-50% + 20px);
+
+    height: 2px;
+    background: #ddd;
+
+    z-index: 0;
+}
+
+
+/* completed connecting line */
+
+.tracking-step.completed:not(:last-child)::after {
+    background: #222;
+}
+
+
+/* =========================================
+   TRACKING CIRCLE
+   ========================================= */
+
+.tracking-circle {
+    position: relative;
+    z-index: 2;
+
+    width: 36px;
+    height: 36px;
+
+    margin: 0 auto 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #eee;
+    color: #777;
+
+    font-size: 13px;
+    font-weight: bold;
+}
+
+
+/* completed */
+
+.tracking-step.completed .tracking-circle {
+    background: #222;
+    color: #fff;
+}
+
+
+/* current */
+
+.tracking-step.current .tracking-circle {
+    background: #222;
+    color: #fff;
+    box-shadow: 0 0 0 5px #ddd;
+}
+
+
+/* cancelled */
+
+.tracking-step.cancelled .tracking-circle {
+    background: #a00000;
+    color: #fff;
+}
+
+
+/* =========================================
+   TRACKING NAME
+   ========================================= */
+
+.tracking-name {
+    font-size: 12px;
+    font-weight: bold;
+    color: #777;
+    line-height: 1.3;
+}
+
+.tracking-step.completed .tracking-name,
+.tracking-step.current .tracking-name {
+    color: #222;
+}
+
+
+/* =========================================
+   ORDER ITEMS
+   ========================================= */
+
+.order-items {
+    padding: 28px 0 10px;
+}
+
+.order-item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 15px 0;
+
+    border-bottom: 1px solid #eee;
+}
+
+.order-item-row:last-child {
+    border-bottom: none;
+}
+
+.order-item-row strong {
+    font-size: 15px;
+}
+
+.order-item-row span {
+    margin-left: 8px;
+    color: #777;
+}
+
+.order-item-row > div:last-child {
+    font-weight: bold;
+}
+
+
+/* =========================================
+   DELIVERY DETAILS
+   ========================================= */
+
+.delivery-info {
+    margin-top: 25px;
+    padding: 25px;
+
+    background: #fafafa;
+
+    border-radius: 12px;
+    border: 1px solid #eee;
+}
+
+.delivery-info p {
+    margin: 12px 0;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.delivery-info strong {
+    color: #222;
+}
+
+
+/* =========================================
+   CART ITEMS
+   ========================================= */
+
+.cart-item h2 {
+    margin: 0 0 10px;
+    font-size: 22px;
+}
+
+.item-price {
+    margin: 6px 0;
+    color: #777;
+    font-size: 15px;
+}
+
+
+/* =========================================
+   QUANTITY
+   ========================================= */
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.quantity-control a {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #222;
+    color: #fff;
+
+    text-decoration: none;
+
+    border-radius: 50%;
+
+    font-size: 21px;
+    font-weight: bold;
+
+    transition: 0.2s ease;
+}
+
+.quantity-control a:hover {
+    background: #444;
+    transform: scale(1.05);
+}
+
+.quantity-control span {
+    min-width: 25px;
+    text-align: center;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+
+/* =========================================
+   REMOVE
+   ========================================= */
+
+.remove-btn {
+    color: #b00020;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.remove-btn:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   TOTAL
+   ========================================= */
+
+.cart-total {
+    background: #fff;
+    padding: 30px;
+    margin-top: 30px;
+    border-radius: 16px;
+    text-align: right;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+.cart-total h2 {
+    margin: 0 0 22px;
+    font-size: 25px;
+}
+
+
+/* =========================================
+   BUTTON
+   ========================================= */
+
+.checkout-btn {
+    display: inline-block;
+
+    padding: 14px 30px;
+
+    background: #222;
+    color: #fff;
+
+    border: none;
+    border-radius: 30px;
+
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+.checkout-btn:hover {
+    background: #444;
+    transform: translateY(-2px);
+}
+
+
+/* =========================================
+   CONTINUE
+   ========================================= */
+
+.continue-btn {
+    display: inline-block;
+
+    margin-top: 18px;
+
+    color: #222;
+
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.continue-btn:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   EMPTY
+   ========================================= */
+
+.empty-cart {
+    background: #fff;
+    padding: 90px 25px;
+    text-align: center;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+.empty-cart h2 {
+    margin: 0 0 15px;
+    font-size: 25px;
+}
+
+.empty-cart p {
+    color: #777;
+}
+
+
+/* =========================================
+   FORM
+   ========================================= */
+
+.cart-item form {
+    width: 100%;
+}
+
+.cart-item form p {
+    margin: 18px 0;
+}
+
+.cart-item label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.cart-item input[type="text"],
+.cart-item input[type="tel"],
+.cart-item input[type="email"],
+.cart-item input[type="number"],
+.cart-item textarea,
+.cart-item select {
+    width: 100%;
+
+    margin-top: 8px;
+
+    padding: 13px 15px;
+
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    background: #fafafa;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+.cart-item input:focus,
+.cart-item textarea:focus,
+.cart-item select:focus {
+    border-color: #222;
+    background: #fff;
+}
+
+.cart-item textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 800px) {
+
+    .cart-page {
+        padding: 40px 15px 60px;
+    }
+
+    .cart-header h1 {
+        font-size: 32px;
+    }
+
+    .order-top {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .order-price {
+        text-align: left;
+    }
+
+    .tracking {
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 15px;
+    }
+
+    .tracking-step {
+        min-width: 105px;
+    }
+
+    .tracking-step:not(:last-child)::after {
+        display: none;
+    }
+
+    .order-item-row {
+        gap: 15px;
+    }
+
+    .cart-page > .cart-item:not(.order-card) {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cart-total {
+        text-align: left;
+    }
+
+    .checkout-btn {
+        text-align: center;
+    }
+}
+
+
+/* =========================================
+   SMALL MOBILE
+   ========================================= */
+
+@media (max-width: 480px) {
+
+    .cart-header h1 {
+        font-size: 27px;
+        letter-spacing: 2px;
+    }
+
+    .cart-item,
+    .cart-total,
+    .order-card {
+        padding: 22px;
+        border-radius: 12px;
+    }
+
+    .order-top h2 {
+        font-size: 21px;
+    }
+
+    .tracking-step {
+        min-width: 95px;
+    }
+
+    .checkout-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* =========================================
+   CANCEL ORDER
+   ========================================= */
+
+.cancel-order {
+    margin-top: 15px;
+}
+
+.cancel-btn {
+    display: inline-block;
+    padding: 10px 18px;
+    border: 1px solid #b00020;
+    border-radius: 30px;
+    color: #b00020;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: 0.2s ease;
+}
+
+.cancel-btn:hover {
+    background: #b00020;
+    color: #fff;
+}

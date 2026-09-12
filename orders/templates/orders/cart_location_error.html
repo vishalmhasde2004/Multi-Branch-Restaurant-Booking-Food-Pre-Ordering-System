@@ -1,0 +1,82 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Cart Location | Strange Restaurant</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'orders/css/style.css' %}"
+    >
+
+</head>
+
+<body>
+
+<div class="cart-page">
+
+    <header class="cart-header">
+
+        <p class="page-label">
+            STRANGE RESTAURANT
+        </p>
+
+        <h1>
+            DIFFERENT LOCATION
+        </h1>
+
+        <p>
+            Your cart already contains items from
+            {{ current_location|title }}.
+        </p>
+
+    </header>
+
+
+    <div class="empty-cart">
+
+        <h2>
+            You can order from one location at a time.
+        </h2>
+
+        <p>
+            Please complete or clear your current cart
+            before adding food from
+            {{ new_location|title }}.
+        </p>
+
+        <br>
+
+        <a
+            href="{% url 'cart' %}"
+            class="checkout-btn"
+        >
+            VIEW CART
+        </a>
+
+        <br><br>
+
+        <a
+            href="{% url 'menu' %}"
+            class="continue-btn"
+        >
+            ← BACK TO MENU
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

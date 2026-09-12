@@ -1,0 +1,361 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Orders | Strange Restaurant</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'orders/css/style.css' %}"
+    >
+
+</head>
+
+<body>
+
+<div class="cart-page">
+
+    <header class="cart-header">
+
+        <p class="page-label">
+            STRANGE RESTAURANT
+        </p>
+
+        <h1>
+            MY ORDERS
+        </h1>
+
+        <p>
+            Track your restaurant orders and bookings.
+        </p>
+
+    </header>
+
+
+    {% if orders %}
+
+        {% for order in orders %}
+
+            <!-- ORDER SUMMARY -->
+
+            <div class="order-card">
+
+                <div class="order-top">
+
+                    <div>
+
+                        <p class="order-number">
+                            ORDER #{{ order.id }}
+                        </p>
+
+                        <h2>
+                            {{ order.get_order_type_display }}
+                        </h2>
+
+                        <p>
+                            <strong>Location:</strong>
+                            {{ order.location|title }}
+                        </p>
+
+
+                        {% if order.booking %}
+
+                            <p>
+                                <strong>Booking Date:</strong>
+                                {{ order.booking.date|date:"d M Y" }}
+                            </p>
+
+                            <p>
+                                <strong>Booking Time:</strong>
+                                {{ order.booking.time|time:"h:i A" }}
+                            </p>
+
+                            <p>
+                                <strong>Guests:</strong>
+                                {{ order.booking.guests }}
+                            </p>
+
+                        {% else %}
+
+                            <p>
+                                <strong>Order Date:</strong>
+                                {{ order.created_at|date:"d M Y, h:i A" }}
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="order-price">
+
+                        <h2>
+                            ₹{{ order.total_amount|floatformat:2 }}
+                        </h2>
+
+                        {% if order.payment_method %}
+
+                            <p>
+                                <strong>Payment:</strong>
+                                {{ order.get_payment_method_display }}
+                            </p>
+
+                        {% else %}
+
+                            <p>
+                                <strong>Payment:</strong>
+                                Not Required
+                            </p>
+
+                        {% endif %}
+
+
+                        <p>
+                            <strong>Payment Status:</strong>
+                            {{ order.get_payment_status_display }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CURRENT STATUS -->
+
+                <div class="current-status">
+
+                    <span>
+                        CURRENT STATUS
+                    </span>
+
+                    {% if order.status == 'Cancelled' %}
+
+                        <strong class="status-cancelled">
+                            CANCELLED
+                        </strong>
+
+                    {% else %}
+
+                        <strong class="status-current">
+                            {{ order.status }}
+                        </strong>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- CANCEL ORDER -->
+
+                {% if order.status != 'Cancelled' %}
+
+                    {% if order.status != 'Out for Delivery' %}
+
+                        {% if order.status != 'Delivered' %}
+
+                            {% if order.status != 'Served' %}
+
+                                {% if order.status != 'Completed' %}
+
+                                    <div class="cancel-order">
+
+                                        <a
+                                            href="{% url 'cancel_order' order.id %}"
+                                            class="cancel-btn"
+                                            onclick="return confirm('Are you sure you want to cancel this order?');"
+                                        >
+                                            CANCEL ORDER
+                                        </a>
+
+                                    </div>
+
+                                {% endif %}
+
+                            {% endif %}
+
+                        {% endif %}
+
+                    {% endif %}
+
+                {% endif %}
+
+
+                <!-- ORDER TRACKING -->
+
+                <div class="tracking-section">
+
+                    <h3>
+                        ORDER TRACKING
+                    </h3>
+
+
+                    <div class="tracking">
+
+                        {% for step in order.tracking_steps %}
+
+                            <div class="tracking-step {{ step.state }}">
+
+                                <div class="tracking-circle">
+
+                                    {% if step.state == 'completed' %}
+
+                                        ✓
+
+                                    {% elif step.state == 'current' %}
+
+                                        ●
+
+                                    {% elif step.state == 'cancelled' %}
+
+                                        ×
+
+                                    {% else %}
+
+                                        {{ forloop.counter }}
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                <div class="tracking-name">
+
+                                    {{ step.name }}
+
+                                </div>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- ORDER ITEMS -->
+
+                <div class="order-items">
+
+                    <h3>
+                        ORDER ITEMS
+                    </h3>
+
+
+                    {% for item in order.items.all %}
+
+                        <div class="order-item-row">
+
+                            <div>
+
+                                <strong>
+                                    {{ item.menu_item.name }}
+                                </strong>
+
+                                <span>
+                                    × {{ item.quantity }}
+                                </span>
+
+                            </div>
+
+
+                            <div>
+
+                                ₹{{ item.price|floatformat:2 }}
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- DELIVERY DETAILS -->
+
+                {% if order.order_type == 'DELIVERY' %}
+
+                    <div class="delivery-info">
+
+                        <h3>
+                            DELIVERY DETAILS
+                        </h3>
+
+                        <p>
+                            <strong>Name:</strong>
+                            {{ order.full_name }}
+                        </p>
+
+                        <p>
+                            <strong>Phone:</strong>
+                            {{ order.phone }}
+                        </p>
+
+                        <p>
+                            <strong>Address:</strong>
+                            {{ order.delivery_address }}
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+
+    {% else %}
+
+        <div class="empty-cart">
+
+            <h2>
+                You have no orders yet.
+            </h2>
+
+            <p>
+                Start by selecting something delicious
+                from our menu.
+            </p>
+
+            <br>
+
+            <a
+                href="{% url 'menu' %}"
+                class="checkout-btn"
+            >
+                GO TO MENU
+            </a>
+
+        </div>
+
+    {% endif %}
+
+
+    <div class="cart-total">
+
+        <a
+            href="{% url 'menu' %}"
+            class="continue-btn"
+        >
+            ← BACK TO MENU
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,258 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Delivery Checkout | Strange Restaurant
+    </title>
+
+    <link rel="stylesheet"
+          href="{% static 'orders/css/style.css' %}">
+
+</head>
+
+
+<body>
+
+    <div class="cart-page">
+
+
+        <header class="cart-header">
+
+            <h1>
+                ONLINE DELIVERY
+            </h1>
+
+            {% if success %}
+
+                <p>
+                    Your order has been placed successfully.
+                </p>
+
+            {% else %}
+
+                <p>
+                    Enter your delivery details and choose a payment method.
+                </p>
+
+            {% endif %}
+
+        </header>
+
+
+        {% if success %}
+
+            <div class="cart-total">
+
+                <h2>
+                    {{ success }}
+                </h2>
+
+
+                {% if order %}
+
+                    <p>
+                        Order ID:
+                        #{{ order.id }}
+                    </p>
+
+
+                    <p>
+                        Order Status:
+                        {{ order.status }}
+                    </p>
+
+
+                    <p>
+                        Payment:
+                        {{ order.payment_method }}
+                    </p>
+
+
+                    <p>
+                        Total:
+                        ₹{{ order.total_amount|floatformat:2 }}
+                    </p>
+
+                {% endif %}
+
+
+                <br>
+
+
+                <a
+                    href="{% url 'menu' %}"
+                    class="checkout-btn"
+                >
+                    BACK TO MENU
+                </a>
+
+            </div>
+
+
+        {% else %}
+
+
+            {% if error %}
+
+                <div class="cart-total">
+
+                    <p>
+                        {{ error }}
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+            <div class="cart-item">
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+
+                    <h2>
+                        DELIVERY DETAILS
+                    </h2>
+
+
+                    <p>
+
+                        <label for="full_name">
+                            Full Name
+                        </label>
+
+                        <br>
+
+                        <input
+                            type="text"
+                            id="full_name"
+                            name="full_name"
+                            required
+                        >
+
+                    </p>
+
+
+                    <p>
+
+                        <label for="phone">
+                            Phone Number
+                        </label>
+
+                        <br>
+
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            required
+                        >
+
+                    </p>
+
+
+                    <p>
+
+                        <label for="address">
+                            Delivery Address
+                        </label>
+
+                        <br>
+
+                        <textarea
+                            id="address"
+                            name="address"
+                            rows="5"
+                            required
+                        ></textarea>
+
+                    </p>
+
+
+                    <h2>
+                        PAYMENT METHOD
+                    </h2>
+
+
+                    <p>
+
+                        <input
+                            type="radio"
+                            id="online"
+                            name="payment_method"
+                            value="online"
+                            required
+                        >
+
+                        <label for="online">
+                            Pay Online
+                        </label>
+
+                    </p>
+
+
+                    <p>
+
+                        <input
+                            type="radio"
+                            id="cod"
+                            name="payment_method"
+                            value="cod"
+                        >
+
+                        <label for="cod">
+                            Cash on Delivery (COD)
+                        </label>
+
+                    </p>
+
+
+                    <h2>
+                        Total:
+                        ₹{{ total|floatformat:2 }}
+                    </h2>
+
+
+                    <button
+                        type="submit"
+                        class="checkout-btn"
+                    >
+                        PLACE ORDER
+                    </button>
+
+
+                </form>
+
+            </div>
+
+
+            <br>
+
+
+            <a
+                href="{% url 'checkout' %}"
+                class="continue-btn"
+            >
+                ← BACK TO CHECKOUT
+            </a>
+
+
+        {% endif %}
+
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Checkout | Strange Restaurant
+    </title>
+
+    <link rel="stylesheet"
+          href="{% static 'orders/css/style.css' %}">
+
+</head>
+
+
+<body>
+
+    <div class="cart-page">
+
+        <header class="cart-header">
+
+            <h1>
+                CHECKOUT
+            </h1>
+
+            <p>
+                Choose how you want to order.
+            </p>
+
+        </header>
+
+
+        <div class="cart-item">
+
+            <div>
+
+                <h2>
+                    DINE-IN / TABLE PRE-ORDER
+                </h2>
+
+                <p class="item-price">
+                    Select food to keep with your table booking.
+                    No online payment required.
+                </p>
+
+            </div>
+
+            <a href="{% url 'booking' %}"
+               class="checkout-btn">
+                TABLE BOOKING
+            </a>
+
+        </div>
+
+
+        <div class="cart-item">
+
+            <div>
+
+                <h2>
+                    ONLINE DELIVERY
+                </h2>
+
+                <p class="item-price">
+                    Order food for delivery to your address.
+                    Payment options will be available at checkout.
+                </p>
+
+            </div>
+
+            <a href="{% url 'delivery_checkout' %}"
+   class="checkout-btn">
+    DELIVERY ORDER
+</a>
+
+        </div>
+
+
+        <div class="cart-total">
+
+            <h2>
+                Cart Total:
+                ₹{{ total|floatformat:2 }}
+            </h2>
+
+            <a href="{% url 'cart' %}"
+               class="continue-btn">
+                BACK TO CART
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
